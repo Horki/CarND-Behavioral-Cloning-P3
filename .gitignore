@@ -1,0 +1,6 @@
+# Custom trained model
+# git@github.com:Horki/behavioral_data.git
+behavioral_data/
+
+# Udacity given trained model
+data/
