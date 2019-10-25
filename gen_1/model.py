@@ -1,12 +1,11 @@
-import csv
+import csv, cv2
 import numpy as np
-from scipy import ndimage
 
 from keras.models import Sequential
-from keras.layers import Flatten, Dense, Lambda
+from keras.layers import Flatten, Dense
 
-DATA_PATH='data'
-#  DATA_PATH='behavioral_data/all'
+DATA_PATH='../data'
+#  DATA_PATH='../behavioral_data/all'
 DRIVING_LOG='driving_log.csv'
 
 IMG_WIDTH=320
@@ -28,7 +27,7 @@ def load_data(path):
 
 def load_image(image_path):
     filename = image_path.split('/')[-1]
-    image = ndimage.imread('{}/IMG/{}'.format(DATA_PATH, filename))
+    image = cv2.imread('{}/IMG/{}'.format(DATA_PATH, filename))
     # Check image shape only slows processing
     #  assert image.shape == (IMG_HEIGHT, IMG_WIDTH, IMG_COMPONENTS)
     return image
@@ -37,15 +36,7 @@ def load_image(image_path):
 # Most basic neural network
 def load_model():
     model = Sequential()
-    # Preproceesing layer
-    # Normalize the image by dividing each element with 255
-    #  which is maximum vale of image pixel
-    # Once the image is normalized between 0 and 1,
-    #  mean centre by subtracting with 0.5 from each element
-    #  which will shift the element from 0.5 to 0
-    # Training and validation loss are now much smaller
-    model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=(IMG_HEIGHT, IMG_WIDTH, IMG_COMPONENTS)))
-    model.add(Flatten())
+    model.add(Flatten(input_shape=(IMG_HEIGHT, IMG_WIDTH, IMG_COMPONENTS)))
     model.add(Dense(1))
     model.compile(loss='mse', optimizer='adam')
     return model
@@ -74,6 +65,6 @@ if __name__ == "__main__":
     print("...done\nCompile model: start...")
     # Model Part
     model = load_model()
-    model.fit(X_train, y_train, validation_split=0.2, shuffle=True, nb_epoch=2)
+    model.fit(X_train, y_train, validation_split=0.2, shuffle=True, nb_epoch=7)
     print("...done\nSave model")
     model.save('model.h5')
