@@ -12,7 +12,7 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/center.jpg
+[image1]: ./../examples/center.jpg
 <!-- [image1]: ./examples/placeholder.png "Model Visualization"
 [image2]: ./examples/placeholder.png "Grayscaling"
 [image3]: ./examples/placeholder_small.png "Recovery Image"
@@ -113,11 +113,6 @@ Data provided by Udacity.
 Using preprocessing Lambda layer, normalized the image by dividing each element with 255 (maximum vale of image pixel).
 Once the image is normalized between 0 and 1, mean centre by subtracting with 0.5 from each element which will shift the element from 0.5 to 0.
 Training and validation loss are now much smaller.
-
-```python
-model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=(160, 320, 3)))
-```
-
 <!--
 The overall strategy for deriving a model architecture was to ...
 
@@ -136,22 +131,11 @@ At the end of the process, the vehicle is able to drive autonomously around the 
 
 #### 2. Final Model Architecture
 
-The final model architecture consisted of a convolution neural network with the following layers and layer sizes.
-
 <!--
+The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
+
 Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
 -->
-
-```python
-model.add(Convolution2D(6, 5, 5, activation='relu'))
-model.add(MaxPooling2D())
-model.add(Convolution2D(6, 5, 5, activation='relu'))
-model.add(MaxPooling2D())
-model.add(Flatten())
-model.add(Dense(128))
-model.add(Dense(84))
-model.add(Dense(1))
-```
 
 <!-- ![alt text][image1] -->
 

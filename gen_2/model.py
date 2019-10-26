@@ -4,11 +4,9 @@ from scipy import ndimage
 
 from keras.models import Sequential
 from keras.layers import Flatten, Dense, Lambda
-from keras.layers.convolutional import Convolution2D
-from keras.layers.pooling import MaxPooling2D
 
-DATA_PATH='data'
-#  DATA_PATH='behavioral_data/all'
+DATA_PATH='../data'
+#  DATA_PATH='../behavioral_data/all'
 DRIVING_LOG='driving_log.csv'
 
 IMG_WIDTH=320
@@ -46,16 +44,8 @@ def load_model():
     #  mean centre by subtracting with 0.5 from each element
     #  which will shift the element from 0.5 to 0
     # Training and validation loss are now much smaller
-    print("Lambda preprocessing start...")
     model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=(IMG_HEIGHT, IMG_WIDTH, IMG_COMPONENTS)))
-    print("...end preprocessing")
-    model.add(Convolution2D(6, 5, 5, activation='relu'))
-    model.add(MaxPooling2D())
-    model.add(Convolution2D(6, 5, 5, activation='relu'))
-    model.add(MaxPooling2D())
     model.add(Flatten())
-    model.add(Dense(128))
-    model.add(Dense(84))
     model.add(Dense(1))
     model.compile(loss='mse', optimizer='adam')
     return model
@@ -84,6 +74,6 @@ if __name__ == "__main__":
     print("...done\nCompile model: start...")
     # Model Part
     model = load_model()
-    model.fit(X_train, y_train, validation_split=0.2, shuffle=True, nb_epoch=5)
+    model.fit(X_train, y_train, validation_split=0.2, shuffle=True, nb_epoch=2)
     print("...done\nSave model")
     model.save('model.h5')
