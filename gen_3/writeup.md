@@ -12,8 +12,14 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/center.jpg
-[image2]: ./examples/dataset.png "Dataset"
+[image1]: ./../examples/center.jpg
+<!-- [image1]: ./examples/placeholder.png "Model Visualization"
+[image2]: ./examples/placeholder.png "Grayscaling"
+[image3]: ./examples/placeholder_small.png "Recovery Image"
+[image4]: ./examples/placeholder_small.png "Recovery Image"
+[image5]: ./examples/placeholder_small.png "Recovery Image"
+[image6]: ./examples/placeholder_small.png "Normal Image"
+[image7]: ./examples/placeholder_small.png "Flipped Image" -->
 
 ## Rubric Points
 
@@ -147,6 +153,8 @@ model.add(Dense(84))
 model.add(Dense(1))
 ```
 
+<!-- ![alt text][image1] -->
+
 #### 3. Creation of the Training Set & Training Process
 
 To capture good driving behavior, I first recorded three laps on track one using center lane driving, clockwise and counter-clockwise. Here is an example image of center lane driving:
@@ -166,10 +174,10 @@ Then I repeated this process on track two (one lap) in order to get more data po
 
 <img src="https://raw.githubusercontent.com/Horki/behavioral_data/master/examples/test_4.gif" />
 
-To augment the data sat, I also flipped images and angles thinking that this would add effect similar to driving counter-wise, and then cropped images(removed 50x from top and 20px from bottom).
-For example, here are images that has then been flipped and cropped:
+<!-- To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped: -->
 
-![alt text][image2]
+<!-- ![alt text][image6]
+![alt text][image7] -->
 
 <!-- Etc .... -->
 

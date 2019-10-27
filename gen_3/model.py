@@ -3,14 +3,13 @@ import numpy as np
 from scipy import ndimage
 
 from keras.models import Sequential
-from keras.layers import Flatten, Dense, Lambda, Cropping2D
+from keras.layers import Flatten, Dense, Lambda
 from keras.layers.convolutional import Convolution2D
 from keras.layers.pooling import MaxPooling2D
 
-DATA_PATH='data'
-#  DATA_PATH='behavioral_data/all'
+DATA_PATH='../data'
+#  DATA_PATH='../behavioral_data/all'
 DRIVING_LOG='driving_log.csv'
-# DRIVING_LOG='sample.csv'
 
 IMG_WIDTH=320
 IMG_HEIGHT=160
@@ -50,10 +49,6 @@ def load_model():
     print("Lambda preprocessing start...")
     model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=(IMG_HEIGHT, IMG_WIDTH, IMG_COMPONENTS)))
     print("...end preprocessing")
-    # Remove 50px from top and 20px from bottom
-    print("Cropping images start...")
-    model.add(Cropping2D(cropping=((50, 20), (0, 0))))
-    print("...end cropping")
     model.add(Convolution2D(6, 5, 5, activation='relu'))
     model.add(MaxPooling2D())
     model.add(Convolution2D(6, 5, 5, activation='relu'))
@@ -67,39 +62,13 @@ def load_model():
 
 
 def get_train_data(samples):
-    correction = 0.2 # this is a parameter to tune
     images = []
     measurements = []
     for line in samples:
         # Feature: Center Image
-        img_cen = load_image(line[0])
-        img_left = load_image(line[1])
-        img_right = load_image(line[2])
-
-        img_cen_f = np.fliplr(img_cen)
-        img_left_f = np.fliplr(img_left)
-        img_right_f = np.fliplr(img_right)
-
-        images.append(img_cen)
-        images.append(img_cen_f)
-        images.append(img_left)
-        images.append(img_left_f)
-        images.append(img_right)
-        images.append(img_right_f)
+        images.append(load_image(line[0]))
         # Label: Steering measurement
-        sterring = float(line[3])
-        steering_left = sterring + correction
-        steering_right = sterring - correction
-        sterring_f = -sterring
-        steering_left_f = -steering_left
-        steering_right_f = -steering_right
-        measurements.append(sterring)
-        measurements.append(sterring_f)
-        measurements.append(steering_left)
-        measurements.append(steering_left_f)
-        measurements.append(steering_right)
-        measurements.append(steering_right_f)
-
+        measurements.append(float(line[3]))
     features = np.array(images)
     labels = np.array(measurements)
     return features, labels
