@@ -12,8 +12,8 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/center.jpg
-[image2]: ./examples/dataset.png "Dataset"
+[image1]: ./../examples/center.jpg
+[image2]: ./../examples/dataset.png "Dataset"
 
 ## Rubric Points
 
@@ -112,12 +112,6 @@ Training and validation loss are now much smaller.
 model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=(160, 320, 3)))
 ```
 
-I have also added Cropping2D layer(to remove unnecessary part of image), and removing 50px from top and 20px from bottom, so we have less data process.
-
-```python
-model.add(Cropping2D(cropping=((50, 20), (0, 0))))
-```
-
 <!--
 The overall strategy for deriving a model architecture was to ...
 
@@ -142,18 +136,14 @@ The final model architecture consisted of a convolution neural network with the 
 Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
 -->
 
-Here is a code snippet of the architecture.
-
 ```python
-model.add(Convolution2D(24, 5, 5, subsample=(2, 2), activation='relu'))
-model.add(Convolution2D(36, 5, 5, subsample=(2, 2), activation='relu'))
-model.add(Convolution2D(48, 5, 5, subsample=(2, 2), activation='relu'))
-model.add(Convolution2D(64, 3, 3, activation='relu'))
-model.add(Convolution2D(64, 3, 3, activation='relu'))
+model.add(Convolution2D(6, 5, 5, activation='relu'))
+model.add(MaxPooling2D())
+model.add(Convolution2D(6, 5, 5, activation='relu'))
+model.add(MaxPooling2D())
 model.add(Flatten())
-model.add(Dense(100))
-model.add(Dense(50))
-model.add(Dense(10))
+model.add(Dense(128))
+model.add(Dense(84))
 model.add(Dense(1))
 ```
 
