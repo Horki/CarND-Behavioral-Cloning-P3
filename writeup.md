@@ -14,6 +14,7 @@ The goals / steps of this project are the following:
 
 [image1]: ./examples/center.jpg
 [image2]: ./examples/dataset.png "Dataset"
+[image3]: ./examples/result.png "Result"
 
 ## Rubric Points
 
@@ -66,21 +67,35 @@ The model.py file contains the code for training and saving the convolution neur
 
 #### 1. An appropriate model architecture has been employed
 
-My model consists of a most basic convolution neural network setup.
-<!--
-My model consists of a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24)
+My model consists of a convolution neural network with 3x3 filter sizes and depths between 24 and 64.
 
-The model includes RELU layers to introduce nonlinearity (code line 20), and the data is normalized in the model using a Keras lambda layer (code line 18).
--->
+```python
+model.add(Convolution2D(24, 5, 5, subsample=(2, 2), activation='relu'))
+model.add(Convolution2D(36, 5, 5, subsample=(2, 2), activation='relu'))
+model.add(Convolution2D(48, 5, 5, subsample=(2, 2), activation='relu'))
+model.add(Convolution2D(64, 3, 3, activation='relu'))
+model.add(Convolution2D(64, 3, 3, activation='relu'))
+```
+
+The model includes RELU layers to introduce nonlinearity, and the data is normalized in the model using a Keras lambda layer.
+
+```python
+model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=(160, 320, 3)))
+```
 
 #### 2. Attempts to reduce overfitting in the model
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting. The model was tested by running it through the simulator and ensuring that the ~~vehicle could stay on the track~~ vehicle on this generation stays on track a bit.
-<!--
-The model contains dropout layers in order to reduce overfitting (model.py lines 21).
+The model was trained and validated on different data sets to ensure that the model was not overfitting. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
--->
+The model contains dropout layers in order to reduce overfitting.
+
+```py
+model.add(Flatten())
+model.add(Dense(100))
+model.add(Dense(50))
+model.add(Dense(10))
+model.add(Dense(1))
+```
 
 #### 3. Model parameter tuning
 
@@ -130,32 +145,15 @@ To combat the overfitting, I modified the model so that ...
 Then I ... 
 
 The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
+-->
 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
--->
 
 #### 2. Final Model Architecture
 
 The final model architecture consisted of a convolution neural network with the following layers and layer sizes.
 
-<!--
-Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
--->
-
 Here is a code snippet of the architecture.
-
-```python
-model.add(Convolution2D(24, 5, 5, subsample=(2, 2), activation='relu'))
-model.add(Convolution2D(36, 5, 5, subsample=(2, 2), activation='relu'))
-model.add(Convolution2D(48, 5, 5, subsample=(2, 2), activation='relu'))
-model.add(Convolution2D(64, 3, 3, activation='relu'))
-model.add(Convolution2D(64, 3, 3, activation='relu'))
-model.add(Flatten())
-model.add(Dense(100))
-model.add(Dense(50))
-model.add(Dense(10))
-model.add(Dense(1))
-```
 
 #### 3. Creation of the Training Set & Training Process
 
@@ -181,10 +179,10 @@ For example, here are images that has then been flipped and cropped:
 
 ![alt text][image2]
 
-<!-- Etc .... -->
+After the collection process, I had (8036 * 6) 48216 number of data points.
 
-<!-- After the collection process, I had X number of data points. I then preprocessed this data by ... -->
+I finally randomly shuffled the data set and put 20% of the data into a validation set.
 
-<!-- I finally randomly shuffled the data set and put Y% of the data into a validation set.  -->
+I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 3 as evidenced by smallest loss value. I used an adam optimizer so that manually training the learning rate wasn't necessary.
 
-<!-- I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary. -->
+![alt text][image3]
