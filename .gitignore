@@ -7,3 +7,7 @@ data/
 
 # Track 1 result
 run1/
+
+# Virtual Environment
+venv/
+env/
